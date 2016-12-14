@@ -1,23 +1,20 @@
 #!/usr/bin/python
 from button import button
+from led import led
+from setup import setup
 
 
 # Open a file
 fo = open("arduino.c", "w")
 
-def setup() :
-	fo.write("void setup() {\n")
-	fo.write("\tpinMode(BUTTON, INPUT);\n")
-	fo.write("\tpinMode(LED, OUTPUT);\n")
-	fo.write("}\n")
 
 def buttonM(port) :
 	b = button(port)
 	fo.write(b.initArdui())
 
-def led(port) :
-	res = "int LED = " + str(port) + ";"
-	fo.write(res + "\n")
+def ledM(port) :
+	l = led(port)
+	fo.write(l.initArdui())
 
 def loop() :
 	fo.write("void loop() {\n")
@@ -29,9 +26,12 @@ def loop() :
 	fo.write("\tprev = reading;\n")
 	fo.write("}\n")
 
-buttonM(9)
-led(12)
-setup()
+b = button(9)
+l = led(12)
+s = setup()
+s.addComposant(b)
+s.addComposant(l)
+fo.write(str(s.arduino()))
 loop()
 
 # Close opend file
