@@ -15,6 +15,7 @@ class loop :
 			self.m_contentString += "\tif (reading" + p_composantInputString + " == LOW && prev" + \
 				p_composantInputString + " == HIGH) {\n"
 		
+		
 		if (p_action == "switch") :
 			self.m_contentString += "\t\tif (state" + p_composantOutputString + " == HIGH) { state" + \
 			p_composantOutputString + " = LOW; } else { state" + p_composantOutputString + " = HIGH; }\n"
