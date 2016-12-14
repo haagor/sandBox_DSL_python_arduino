@@ -1,5 +1,5 @@
-int BUTTON = 9;
-int state = LOW; int prev = HIGH;
+int BUTTON9 = 9;
+int state9 = LOW; int prev9 = HIGH;
 int LED = 12;
 void setup() {
 	pinMode(BUTTON, INPUT);
