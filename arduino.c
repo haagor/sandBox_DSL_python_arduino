@@ -5,10 +5,10 @@ int LED12 = 12;
 int state12 = LOW; int prev12 = HIGH;
 
 void setup() {
-	pinMode(LED9, INPUT);
+	pinMode(BUTTON9, INPUT);
 	pinMode(LED12, OUTPUT);
-
-}void loop() {
+}
+void loop() {
 	int reading = digitalRead(BUTTON);
 	if (reading == HIGH && prev == LOW) {
 		if (state == HIGH) { state = LOW; } else { state = HIGH; }
