@@ -1,4 +1,6 @@
 #!/usr/bin/python
+from button import button
+
 
 # Open a file
 fo = open("arduino.c", "w")
@@ -9,9 +11,9 @@ def setup() :
 	fo.write("\tpinMode(LED, OUTPUT);\n")
 	fo.write("}\n")
 
-def button(port) :
-	res = "int BUTTON = " + str(port) + ";"
-	fo.write(res + "\n")
+def buttonM(port) :
+	b = button(port)
+	fo.write(b.initArdui())
 
 def led(port) :
 	res = "int LED = " + str(port) + ";"
@@ -27,7 +29,8 @@ def loop() :
 	fo.write("\tprev = reading;\n")
 	fo.write("}\n")
 
-button(9)
+buttonM(9)
+led(12)
 setup()
 loop()
 
