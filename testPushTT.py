@@ -17,8 +17,8 @@ s.addComposant(le)
 fo.write(str(s.arduino()))
 
 lo = loop()
-lo.addRead("BUTTON9")
-lo.addActionIf("BUTTON9", "pushTT", "active", "LED12")
+lo.addRead(["BUTTON9"])
+lo.addActionIf(["BUTTON9"], "pushTT", "active", "LED12")
 fo.write(str(lo.arduino()))
 
 # Close opend file
