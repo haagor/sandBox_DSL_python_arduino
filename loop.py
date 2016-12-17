@@ -22,27 +22,27 @@ class loop :
 			if (len(p_composantInputString) != 2) : 
 				return "error"
 			self.m_contentString += "\tif (reading" + p_composantInputString[0] + " == HIGH && reading" + \
-				p_composantInputString[1] + " == HIGH) {\n"
+				p_composantInputString[1] + " == HIGH && (prev" + p_composantInputString[0] + " == LOW || prev" + \
+				p_composantInputString[1] + " == LOW) {\n"
 
 		
 		if (p_action == "switch") :
 			self.m_contentString += "\t\tif (state" + p_composantOutputString + " == HIGH) { state" + \
-			p_composantOutputString + " = LOW; }\n\t\telse { state" + p_composantOutputString + " = HIGH;\n"
+			p_composantOutputString + " = LOW; } else { state" + p_composantOutputString + " = HIGH;}}\n"
 		elif (p_action == "active") :
-			self.m_contentString += "\t\tstate" + p_composantOutputString + " = HIGH;\n"
+			self.m_contentString += "\t\tstate" + p_composantOutputString + " = HIGH;}\n"
 		
-		self.m_contentString += "\t\tdigitalWrite(" + p_composantOutputString + ", state" + p_composantOutputString +");\n\t}\n"
-
 
 		if (p_action == "active") :
-			self.m_contentString += "\tif (reading" + p_composantInputString[0] + " = LOW && prev" + \
-				p_composantInputString[0] + " == HIGH) {\n\t\tstate" + p_composantOutputString + " = LOW;" \
-			+ "\n\t\tdigitalWrite(" + p_composantOutputString + ", state" + p_composantOutputString +");\n"
+			for c_composantInput in p_composantInputString :
+				self.m_contentString += "\telse if (reading" + c_composantInput + " = LOW && prev" + \
+					c_composantInput + " == HIGH) {\n\t\tstate" + p_composantOutputString + " = LOW;}\n"
 
+		self.m_contentString += "\tdigitalWrite(" + p_composantOutputString + ", state" + p_composantOutputString +");\n"
+		for c_composantInput in p_composantInputString : 
+			self.m_contentString += "\tprev" + c_composantInput + " = reading" + c_composantInput + ";\n" 
+		
 
-		self.m_contentString +="\t}\n"
-		if (p_ifState == "push" or p_ifState == "release") :
-			self.m_contentString += "\tprev" + p_composantInputString[0] + " = reading" + p_composantInputString[0] + ";\n" 
 		self.m_resString = "void loop() {\n " + self.m_contentString + " \n}"
 
 
