@@ -3,6 +3,7 @@ class loop :
 	def __init__(self) :
 		self.m_contentString = ""
 		self.m_resString = "void loop() {\n" + self.m_contentString + " }"
+		self.m_multiAction = 0
 
 	def addRead(self, p_composantString) :
 		for c_composant in p_composantString :
@@ -25,18 +26,20 @@ class loop :
 				p_composantInputString[1] + " == HIGH && (prev" + p_composantInputString[0] + " == LOW || prev" + \
 				p_composantInputString[1] + " == LOW) {\n"
 
+		for c_action in p_action :
+			if (c_action == "switch") :
+				self.m_contentString += "\t\tif (state" + p_composantOutputString + " == HIGH) { state" + \
+				p_composantOutputString + " = LOW; } else { state" + p_composantOutputString + " = HIGH;}}\n"
+			elif (c_action == "active") :
+				self.m_contentString += "\t\tstate" + p_composantOutputString + " = HIGH;}\n"
+			elif (c_action == "unactive") :
+				self.m_contentString += "\t\tstate" + p_composantOutputString + " = LOW;}\n"
 		
-		if (p_action == "switch") :
-			self.m_contentString += "\t\tif (state" + p_composantOutputString + " == HIGH) { state" + \
-			p_composantOutputString + " = LOW; } else { state" + p_composantOutputString + " = HIGH;}}\n"
-		elif (p_action == "active") :
-			self.m_contentString += "\t\tstate" + p_composantOutputString + " = HIGH;}\n"
-		
-
-		if (p_action == "active") :
-			for c_composantInput in p_composantInputString :
-				self.m_contentString += "\telse if (reading" + c_composantInput + " = LOW && prev" + \
-					c_composantInput + " == HIGH) {\n\t\tstate" + p_composantOutputString + " = LOW;}\n"
+		for c_action in p_action :
+			if (c_action == "active") :
+				for c_composantInput in p_composantInputString :
+					self.m_contentString += "\telse if (reading" + c_composantInput + " = LOW && prev" + \
+						c_composantInput + " == HIGH) {\n\t\tstate" + p_composantOutputString + " = LOW;}\n"
 
 		self.m_contentString += "\tdigitalWrite(" + p_composantOutputString + ", state" + p_composantOutputString +");\n"
 		for c_composantInput in p_composantInputString : 
