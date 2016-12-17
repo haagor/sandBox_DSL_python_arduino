@@ -10,9 +10,10 @@ void setup() {
 }
 void loop() {
  	int readingBUTTON9 = digitalRead(BUTTON9)
-	if (readingBUTTON9 == HIGH && prevBUTTON9 == LOW) {
-		if (stateLED12 == HIGH) { stateLED12 = LOW; } else { stateLED12 = HIGH; }
+	if (readingBUTTON9 = HIGH) {
+		stateLED12 = HIGH; }
 		digitalWrite(LED12, stateLED12);
+	else { stateLED12 = LOW; }
 	}
 	prevBUTTON9 = readingBUTTON9;
  

@@ -14,16 +14,26 @@ class loop :
 		elif (p_ifState == "release") :
 			self.m_contentString += "\tif (reading" + p_composantInputString + " == LOW && prev" + \
 				p_composantInputString + " == HIGH) {\n"
+		elif (p_ifState == "pushTT") :
+			self.m_contentString += "\tif (reading" + p_composantInputString + " = HIGH) {\n"
 		
 		
 		if (p_action == "switch") :
 			self.m_contentString += "\t\tif (state" + p_composantOutputString + " == HIGH) { state" + \
 			p_composantOutputString + " = LOW; } else { state" + p_composantOutputString + " = HIGH; }\n"
-
-
+		elif (p_action == "active") :
+			self.m_contentString += "\t\tstate" + p_composantOutputString + " = HIGH; }\n"
+		
 		self.m_contentString += "\t\tdigitalWrite(" + p_composantOutputString + ", state" + p_composantOutputString +");\n"
+
+
+		if (p_action == "active") :
+			self.m_contentString += "\telse { state" + p_composantOutputString + " = LOW; }\n"
+
+
 		self.m_contentString +="\t}\n"
-		self.m_contentString += "\tprev" + p_composantInputString + " = reading" + p_composantInputString + ";\n"
+		#useless for pushTT
+		self.m_contentString += "\tprev" + p_composantInputString + " = reading" + p_composantInputString + ";\n" 
 
 		self.m_resString = "void loop() {\n " + self.m_contentString + " \n}"
 
